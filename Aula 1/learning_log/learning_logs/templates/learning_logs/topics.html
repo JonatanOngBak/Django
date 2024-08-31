@@ -10,10 +10,7 @@
         {% empty %}
             <li>Não há tópicos adcionados.</li>
         {% endfor %}
-
-    </ul>    
-
-
-
-
+    </ul>
+    
+    <a href="{% url 'new_topic' %}">Adicionar novos Tópicos</a>
 {% endblock content %}
