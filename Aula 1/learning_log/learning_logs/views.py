@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Topic
-from .forms import TopicForm
+from .forms import TopicForm, EntryForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
@@ -35,5 +35,28 @@ def new_topic(request):
             return HttpResponseRedirect(reverse('topics'))
         
     context = {'form': form}
-    return render(request, 'learning_logs/new_topic.html', context)    
+    return render(request, 'learning_logs/new_topic.html', context)
+
+
+def new_entry(request, topic_id):
+    """Acrecenta uma nova entrada para um assunto em particular"""
+    topic = Topic.objects.get(id=topic_id)
+
+    if request.method != 'POST':
+        # Nenhum dado submetido; Cria um formulario em branco
+        form = EntryForm()
+
+    else:
+        # Dados de POST submetidos prossesa os dados
+        form = EntryForm(date=request.POST)
+        if form.is_valid():
+            new_entry = form.save(commit=False)
+            new_entry.topic = topic
+            new_entry.save()
+            return HttpResponseRedirect(reverse('topic', args=[topic_id]))
+
+    context = {'topic':topic, 'form':form}
+    return render(request, 'learning_logs/new_entry.html', context)    
+
+
 
