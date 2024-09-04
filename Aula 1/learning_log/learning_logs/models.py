@@ -14,7 +14,7 @@ class Entry(models.Model):
     """Algo especifico aprendido sobre um assunto."""
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)  # o argumento cascade fará com que ele seja deletado tbm caso o tópico relacionado seja deletado
     text = models.TextField()
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'entries'
